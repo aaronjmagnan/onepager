@@ -15,7 +15,7 @@ const STYLE_DESCRIPTIONS: Record<string, string> = {
 
 export async function POST(req: NextRequest) {
   try {
-    const { title, tagline, body, cta, contact, docType, style } =
+    const { title, tagline, body, cta, contact, docType, style, customStyle } =
       await req.json();
 
     if (!title || !body) {
@@ -25,7 +25,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const styleDesc = STYLE_DESCRIPTIONS[style] || STYLE_DESCRIPTIONS.executive;
+    const styleDesc =
+      style === "custom" && customStyle?.trim()
+        ? customStyle.trim()
+        : STYLE_DESCRIPTIONS[style] || STYLE_DESCRIPTIONS.executive;
 
     const client = new Anthropic();
 

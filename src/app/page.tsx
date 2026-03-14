@@ -57,6 +57,7 @@ interface FormData {
   contact: string;
   docType: string;
   style: string;
+  customStyle: string;
 }
 
 export default function Home() {
@@ -69,6 +70,7 @@ export default function Home() {
     contact: "",
     docType: "General",
     style: "executive",
+    customStyle: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -247,7 +249,25 @@ export default function Home() {
               <div className="style-card-desc">{s.desc}</div>
             </button>
           ))}
+          <button
+            className={`style-card${form.style === "custom" ? " selected" : ""}`}
+            onClick={() => update("style", "custom")}
+            type="button"
+          >
+            <div className="style-card-icon">✎</div>
+            <div className="style-card-label">Custom</div>
+            <div className="style-card-desc">Describe your own style</div>
+          </button>
         </div>
+        {form.style === "custom" && (
+          <textarea
+            className="field-input mt-4"
+            placeholder="Describe the visual style you want — colors, fonts, mood, layout, references..."
+            value={form.customStyle}
+            onChange={(e) => update("customStyle", e.target.value)}
+            style={{ minHeight: 100 }}
+          />
+        )}
       </div>
 
       <hr className="section-divider" />
